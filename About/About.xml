@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Nature Is Beautiful Flex</name>
+  <author>jptrrs</author>
+  <supportedVersions>
+    <li>1.1</li>
+  </supportedVersions>
+  <packageId>JPT.NatureIsBeautifulFlex</packageId>
+  <!--<modDependencies>
+    <li>
+	  <packageId>fluffy.stuffedfloors</packageId>
+      <displayName>Stuffed Floors</displayName>
+	  <downloadUrl>https://ludeon.com/forums/index.php?topic=16120</downloadUrl>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/853043503</steamWorkshopUrl>
+    </li>
+  </modDependencies>-->
+  <description>
+Proposal for Thom Blair.
+  </description>
+</ModMetaData>

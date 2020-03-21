@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+
+<!-- ========== From Plants_Wild_General.xml ========== -->
+
+    <Operation Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[defName="Plant_Grass"]/statBases</xpath>
+        <value>
+          <Beauty>1</Beauty>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[defName="Plant_TallGrass"]/statBases</xpath>
+        <value>
+          <Beauty>1</Beauty>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[defName="Plant_Bush"]</xpath>
+        <value>
+	  <statBases><Beauty>1</Beauty></statBases>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[defName="Plant_HealrootWild"]</xpath>
+        <value>
+	  <statBases><Beauty>1</Beauty></statBases>
+        </value>
+    </Operation>
+
+<!-- ========== From Terrain_Natural.xml ========== -->
+
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/TerrainDef[defName="Soil"]/statBases/Beauty/text()</xpath>
+        <value>0</value>
+    </Operation>
+
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/TerrainDef[defName="MossyTerrain"]/statBases/Beauty/text()</xpath>
+        <value>0</value>
+    </Operation>
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/TerrainDef[defName="MossyTerrain"]/statBases/Cleanliness/text()</xpath>
+        <value>0</value>
+    </Operation>
+
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/TerrainDef[defName="MarshyTerrain"]/statBases/Beauty/text()</xpath>
+        <value>0</value>
+    </Operation>
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/TerrainDef[defName="MarshyTerrain"]/statBases/Cleanliness/text()</xpath>
+        <value>-2</value>
+    </Operation>
+
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/TerrainDef[defName="SoilRich"]/statBases/Beauty/text()</xpath>
+        <value>0</value>
+    </Operation>
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/TerrainDef[defName="SoilRich"]/statBases/Cleanliness/text()</xpath>
+        <value>-1</value>
+    </Operation>
+
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/TerrainDef[defName="Gravel"]/statBases/Beauty/text()</xpath>
+        <value>0</value>
+    </Operation>
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/TerrainDef[defName="Gravel"]/statBases/Cleanliness/text()</xpath>
+        <value>0</value>
+    </Operation>
+
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/TerrainDef[defName="Sand"]/statBases/Beauty/text()</xpath>
+        <value>0</value>
+    </Operation>
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/TerrainDef[defName="Sand"]/statBases/Cleanliness/text()</xpath>
+        <value>0</value>
+    </Operation>
+
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/TerrainDef[defName="SoftSand"]/statBases/Beauty/text()</xpath>
+        <value>0</value>
+    </Operation>
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/TerrainDef[defName="SoftSand"]/statBases/Cleanliness/text()</xpath>
+        <value>0</value>
+    </Operation>
+
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/TerrainDef[defName="Mud"]/statBases/Beauty/text()</xpath>
+        <value>0</value>
+    </Operation>
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/TerrainDef[defName="Mud"]/statBases/Cleanliness/text()</xpath>
+        <value>-2</value>
+    </Operation>
+
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/TerrainDef[defName="Ice"]/statBases/Beauty/text()</xpath>
+        <value>0</value>
+    </Operation>
+
+<!-- ========== From Terrain_Water.xml ========== -->
+
+    <Operation Class="PatchOperationAdd">
+      <xpath>/Defs/TerrainDef[defName="WaterDeep"]</xpath>
+        <value>
+	  <statBases><Beauty>15</Beauty></statBases>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAdd">
+      <xpath>/Defs/TerrainDef[defName="WaterOceanDeep"]</xpath>
+        <value>
+	  <statBases><Beauty>25</Beauty></statBases>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAdd">
+      <xpath>/Defs/TerrainDef[defName="WaterShallow"]</xpath>
+        <value>
+	  <statBases><Beauty>1</Beauty></statBases>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAdd">
+      <xpath>/Defs/TerrainDef[defName="WaterOceanShallow"]</xpath>
+        <value>
+	  <statBases><Beauty>5</Beauty></statBases>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAdd">
+      <xpath>/Defs/TerrainDef[defName="WaterMovingShallow"]</xpath>
+        <value>
+	  <statBases><Beauty>1</Beauty></statBases>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/TerrainDef[defName="Marsh"]/statBases/Beauty/text()</xpath>
+        <value>1</value>
+    </Operation>
+
+<!-- ========== From Various_Stone.xml ========== -->
+
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/ThingDef[@Name="ChunkBase"]/statBases/Beauty/text()</xpath>
+        <value>1</value>
+    </Operation>
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/ThingDef[@Name="ChunkBase"]/statBases/Cleanliness/text()</xpath>
+        <value>0</value>
+    </Operation>
+
+
+    <Operation Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[defName="Sandstone"]/statBases</xpath>
+        <value>
+          <Beauty>1</Beauty>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/ThingDef[defName ="SmoothedSandstone"]/statBases/Beauty/text()</xpath>
+        <value>4</value>
+    </Operation>
+
+
+    <Operation Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[defName="Granite"]/statBases</xpath>
+        <value>
+          <Beauty>1</Beauty>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/ThingDef[defName ="SmoothedGranite"]/statBases/Beauty/text()</xpath>
+        <value>4</value>
+    </Operation>
+
+
+    <Operation Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[defName="Limestone"]/statBases</xpath>
+        <value>
+          <Beauty>1</Beauty>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/ThingDef[defName ="SmoothedLimestone"]/statBases/Beauty/text()</xpath>
+        <value>4</value>
+    </Operation>
+
+
+    <Operation Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[defName="Slate"]/statBases</xpath>
+        <value>
+          <Beauty>1</Beauty>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/ThingDef[defName ="SmoothedSlate"]/statBases/Beauty/text()</xpath>
+        <value>4</value>
+    </Operation>
+
+
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/ThingDef[defName="Marble"]/statBases/Beauty/text()</xpath>
+        <value>2</value>
+    </Operation>
+
+    <Operation Class="PatchOperationReplace">
+      <xpath>/Defs/ThingDef[defName ="SmoothedMarble"]/statBases/Beauty/text()</xpath>
+        <value>5</value>
+    </Operation>
+
+<!-- ========== From Filth_Various.xml ========== -->
+
+    <Operation Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[defName="Filth_RubbleRock"]</xpath>
+        <value>
+	  <statBases><Beauty>0</Beauty></statBases>
+        </value>
+    </Operation>
+
+
+<!-- ========== Support for other mods ========== -->
+
+
+<!-- ========== Support for mod RimCuisine ========== -->
+ 
+  <Operation Class="PatchOperationFindMod">
+
+    <mods>
+      <li>[1.0] RimCuisine 2 Core</li>
+    </mods>
+
+    <match Class="PatchOperationSequence">
+      <success>Always</success>
+      <operations>
+
+	<!-- 
+	    So far this mod has been using defName and then putting /statBases 
+            in the <Beauty> line, like this:
+
+		<xpath>/Defs/ThingDef[defName="Filth_RubbleRock"]</xpath>
+		  <value>
+		    <statBases><Beauty>0</Beauty></statBases>
+		  </value>
+
+	    In this next section, @Name is used instead of defName, and that 
+	    makes a BIG difference because if you use @Name, you must have 
+	    /statBases in the xpath line like this:	
+
+		<xpath>Defs/ThingDef[@Name="RC2_PlantBase"]/statBases</xpath>
+		  <value>
+		    <Beauty>2</Beauty>
+		  </value>
+
+	    Why? I don't know, but Rimworld won't even load if I don't do it that way.
+	-->
+
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/ThingDef[@Name="RC2_PlantBase"]/statBases</xpath>
+            <value>
+              <Beauty>2</Beauty>
+            </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/ThingDef[@Name="RC2_FruitTreeBase"]/statBases</xpath>
+            <value>
+              <Beauty>5</Beauty>
+            </value>
+        </li> 
+
+      </operations>
+    </match>
+
+  </Operation>
+
+<!-- ========== End of support for mod "RimCuisine" ========== -->
+
+<!-- ========== Support for mod "Impassable Chest-deep Water" ========== -->
+
+  <Operation Class="PatchOperationFindMod">
+
+    <mods>
+      <li>Impassable Chest-deep Water</li>
+    </mods>
+
+    <match Class="PatchOperationAdd">
+	    <xpath>Defs/TerrainDef[defName="WaterMovingChestDeep"]</xpath>
+	    <value>
+	      <statBases><Beauty>15</Beauty></statBases>
+	    </value>
+    </match>
+
+    <nomatch Class="PatchOperationAdd">
+	    <xpath>Defs/TerrainDef[defName="WaterMovingChestDeep"]</xpath>
+	    <value>
+	      <statBases><Beauty>5</Beauty></statBases>
+      </value>
+    </nomatch>
+
+    </Operation>
+
+<!-- ========== End of support for mod "Impassable Chest-deep Water" ========== -->
+
+
+</Patch>
