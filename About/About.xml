@@ -6,14 +6,13 @@
     <li>1.1</li>
   </supportedVersions>
   <packageId>JPT.NatureIsBeautifulFlex</packageId>
-  <!--<modDependencies>
+  <modDependencies>
     <li>
-	  <packageId>fluffy.stuffedfloors</packageId>
-      <displayName>Stuffed Floors</displayName>
-	  <downloadUrl>https://ludeon.com/forums/index.php?topic=16120</downloadUrl>
-      <steamWorkshopUrl>steam://url/CommunityFilePage/853043503</steamWorkshopUrl>
+      <packageId>UnlimitedHugs.HugsLib</packageId>
+      <displayName>HugsLib</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/818773962</steamWorkshopUrl>
     </li>
-  </modDependencies>-->
+  </modDependencies>
   <description>
 Proposal for Thom Blair.
   </description>
