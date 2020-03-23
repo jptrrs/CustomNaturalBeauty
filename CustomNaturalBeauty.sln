@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29905.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NatureIsBeautiful", "Source\NatureIsBeautiful.csproj", "{59FB17EB-2F8C-4A1B-B546-D4A63FB1CB9C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "About", "About", "{C60094AD-020C-43A2-9291-508C11C9B595}"
+	ProjectSection(SolutionItems) = preProject
+		About\About.xml = About\About.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Languages", "Languages", "{44FBDBD6-024E-4960-8D16-E63A0AE24141}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NatureIsBeautiful", "NatureIsBeautiful", "{9CD987CF-9F25-40A4-8FD7-4766E11587CA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Keyed", "Keyed", "{7B7FD945-AC9D-4817-8AE2-A8BF14A18618}"
+	ProjectSection(SolutionItems) = preProject
+		Languages\NatureIsBeautiful\Keyed\NatureIsBeautiful_keys.xml = Languages\NatureIsBeautiful\Keyed\NatureIsBeautiful_keys.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BeautifulOutdoors", "BeautifulOutdoors", "{8CB6DCB6-1A57-4D15-83EA-66907CD74BF1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Keyed", "Keyed", "{D7E9EB10-356F-4A90-89DA-20143CCBED8A}"
+	ProjectSection(SolutionItems) = preProject
+		Languages\BeautifulOutdoors\Keyed\BeautifulOutdoors_keys.xml = Languages\BeautifulOutdoors\Keyed\BeautifulOutdoors_keys.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "English", "English", "{3DC10ECB-75BF-445C-A3A3-6A2381311E16}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Keyed", "Keyed", "{13495132-2ED6-470E-8183-E1D0B3392301}"
+	ProjectSection(SolutionItems) = preProject
+		Languages\English\Keyed\CustomNaturalBeauty_keys.xml = Languages\English\Keyed\CustomNaturalBeauty_keys.xml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{59FB17EB-2F8C-4A1B-B546-D4A63FB1CB9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59FB17EB-2F8C-4A1B-B546-D4A63FB1CB9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59FB17EB-2F8C-4A1B-B546-D4A63FB1CB9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59FB17EB-2F8C-4A1B-B546-D4A63FB1CB9C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9CD987CF-9F25-40A4-8FD7-4766E11587CA} = {44FBDBD6-024E-4960-8D16-E63A0AE24141}
+		{7B7FD945-AC9D-4817-8AE2-A8BF14A18618} = {9CD987CF-9F25-40A4-8FD7-4766E11587CA}
+		{8CB6DCB6-1A57-4D15-83EA-66907CD74BF1} = {44FBDBD6-024E-4960-8D16-E63A0AE24141}
+		{D7E9EB10-356F-4A90-89DA-20143CCBED8A} = {8CB6DCB6-1A57-4D15-83EA-66907CD74BF1}
+		{3DC10ECB-75BF-445C-A3A3-6A2381311E16} = {44FBDBD6-024E-4960-8D16-E63A0AE24141}
+		{13495132-2ED6-470E-8183-E1D0B3392301} = {3DC10ECB-75BF-445C-A3A3-6A2381311E16}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F57A69AE-B420-4827-8A01-F0E7923A9455}
+	EndGlobalSection
+EndGlobal

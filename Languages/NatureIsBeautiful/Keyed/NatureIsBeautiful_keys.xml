@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <Plant_Grass>1</Plant_Grass>
+  <Plant_TallGrass>1</Plant_TallGrass>
+  <Plant_Bush>1</Plant_Bush>
+  <Plant_HealrootWild>1</Plant_HealrootWild>
+  <Soil>0</Soil>
+  <MossyTerrain>0</MossyTerrain>
+  <MarshyTerrain>0</MarshyTerrain>
+  <SoilRich>0</SoilRich>
+  <Gravel>0</Gravel>
+  <Sand>0</Sand>
+  <SoftSand>0</SoftSand>
+  <Mud>0</Mud>
+  <Ice>0</Ice>
+  <WaterDeep>15</WaterDeep>
+  <WaterOceanDeep>25</WaterOceanDeep>
+  <WaterShallow>1</WaterShallow>
+  <WaterOceanShallow>5</WaterOceanShallow>
+  <WaterMovingShallow>1</WaterMovingShallow>
+  <WaterMovingChestDeep>5</WaterMovingChestDeep>
+  <Marsh>1</Marsh>
+  <Sandstone>1</Sandstone>
+  <Sandstone_Rough>1</Sandstone_Rough>
+  <Sandstone>1</Sandstone>
+  <SmoothedSandstone>4</SmoothedSandstone>
+  <Granite>1</Granite>
+  <Granite_Rough>1</Granite_Rough>
+  <Granite_RoughHewn>1</Granite_RoughHewn>
+  <SmoothedGranite>4</SmoothedGranite>
+  <Limestone>1</Limestone>
+  <Limestone_Rough>1</Limestone_Rough>
+  <Limestone_RoughHewn>1</Limestone_RoughHewn>
+  <SmoothedLimestone>4</SmoothedLimestone>
+  <Slate>1</Slate>
+  <Slate_Rough>1</Slate_Rough>
+  <Slate_RoughHewn>1</Slate_RoughHewn>
+  <SmoothedSlate>4</SmoothedSlate>
+  <Marble>2</Marble>
+  <Marble_Rough>2</Marble_Rough>
+  <Marble_RoughHewn>2</Marble_RoughHewn>
+  <SmoothedMarble>5</SmoothedMarble>
+  <Filth_RubbleRock>0</Filth_RubbleRock>
+  <RC2_PlantBase>2</RC2_PlantBase>
+  <RC2_FruitTreeBase>5</RC2_FruitTreeBase>
+</LanguageData> 

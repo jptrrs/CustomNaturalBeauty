@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  
+  <DefaultsFromTitle>Select default beauty values from:</DefaultsFromTitle>
+  <DefaultsFromDesc>Default values will apply when this window is closed (except for the settings you define manually), or on right-click. Use the reset button to overwrite all values.</DefaultsFromDesc>
+  <profileBaseGame>Base Game</profileBaseGame>
+  <profileNatureIsBeautiful>Nature is Beautiful</profileNatureIsBeautiful>
+  <profileBeautifulOutdoors>Beautiful Outdoors</profileBeautifulOutdoors>
+  <ResetToDefault>Reset to defaults</ResetToDefault>
+  <ResetToDefaultDesc>Reset all beauty values to the selected defaults, overriding the ones defined manually. Will apply when this window is closed.</ResetToDefaultDesc>
+  
+</LanguageData>
