@@ -79,6 +79,7 @@ namespace CustomNaturalBeauty
                     e.SetStatBaseValue(StatDefOf.Beauty, newValue);
                     //Log.Message(e.defName + " beauty has changed to " + newValue);
                 };
+                e.SetStatBaseValue(StatDefOf.Beauty, customBeauty.Value);
             }
         }
 
