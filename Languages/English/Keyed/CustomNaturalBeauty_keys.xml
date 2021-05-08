@@ -8,5 +8,6 @@
   <profileBeautifulOutdoors>Beautiful Outdoors</profileBeautifulOutdoors>
   <ResetToDefault>Reset to defaults</ResetToDefault>
   <ResetToDefaultDesc>Reset all beauty values to the selected defaults, overriding the ones defined manually. Will apply when this window is closed.</ResetToDefaultDesc>
+  <plantGrowth>Plant growth</plantGrowth>
   
 </LanguageData>
