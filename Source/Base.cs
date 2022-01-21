@@ -13,9 +13,7 @@ namespace CustomNaturalBeauty
 {
     public class Base : ModBase
     {
-        public static string SearchField = "";
         public static Dictionary<SettingHandle, bool> Matched = new Dictionary<SettingHandle, bool>();
-        private static List<SettingHandle> allHandles = new List<SettingHandle>();
         internal static Base Instance { get; private set; }
         public override string ModIdentifier
         {
@@ -54,20 +52,21 @@ namespace CustomNaturalBeauty
             };
             bool isCustom = source.Value == 0;
 
-            var resetButton = Settings.GetHandle<bool>("ResetButton", "", "ResetToDefaultDesc".Translate());
+            var resetButton = Settings.GetHandle<bool>("ReloadButton", "", "ReloadDesc".Translate());
             resetButton.Unsaved = true;
-            resetButton.CustomDrawer = rect => Button(rect,resetButton, "ResetToDefault".Translate());
+            resetButton.CustomDrawer = rect => Button(rect, resetButton, "Reload".Translate());
             resetButton.OnValueChanged = delegate 
             {
                 ResetValues();
             };
 
             var searchField =  Settings.GetHandle<string>("SearchField", "SearchField", "SearchField", "");
+            searchField.Unsaved = true;
+            searchField.CustomDrawer = rect => SearchField(rect, searchField, searchField.Value);
             searchField.OnValueChanged = searchWord =>
             {
                 MatchSearch(searchWord);
             };
-            SearchField = searchField;
 
             foreach (BuildableDef e in affected)
             {
@@ -88,34 +87,34 @@ namespace CustomNaturalBeauty
                     e.SetStatBaseValue(StatDefOf.Beauty, newValue);
                     ResetControl(customBeauty);
                 };
-                allHandles.Add(customBeauty);
+                Matched.Add(customBeauty, true);
+                customBeauty.VisibilityPredicate = delegate
+                {
+                    return Matched[customBeauty];
+                };
                 e.SetStatBaseValue(StatDefOf.Beauty, customBeauty.Value);
             }
         }
 
         private void MatchSearch(string word)
         {
-            Log.Warning($"Searching {word}");
-            foreach (var handle in allHandles)
+            ResetSearch();
+            if (word.Count() > 1)
             {
-                handle.VisibilityPredicate = () => handle.Title.Contains(word);
-                ResetControl(handle);
+                foreach (var handle in Matched.Keys.Where(x => !x.Title.Contains(word)).ToList())
+                {
+                    Matched[handle] = false;
+                }
             }
+            else ResetSearch();
+        }
 
-
-            //if (SearchField.Count() > 1)
-            //{
-            //    int length = Matched.EnumerableCount();
-            //    for (int i = 0; i < length; i++)
-            //    {
-            //        var key = Matched.ElementAt(i).Key;
-            //        Matched[key] = key.Contains(SearchField);
-            //    }
-            //}
-            //else
-            //{
-            //    foreach (var e in Matched.Keys) Matched[e] = true;
-            //}
+        private void ResetSearch()
+        {
+            foreach (var handle in Matched.Keys.ToList())
+            {
+                Matched[handle] = true;
+            }
         }
 
         private void SetNewDefaults(string key, ProfileEnum newvalue)
@@ -167,6 +166,26 @@ namespace CustomNaturalBeauty
             if (clicked)
             {
                 setting.Value = !setting.Value;
+                change = true;
+            }
+            return change;
+        }
+
+        public static bool SearchField(Rect rect, SettingHandle<string> setting, string text)
+        {
+            bool change = false;
+            float height = rect.height;
+            Rect field = rect;
+            field.width -= height;
+            string input = Widgets.TextField(field, text);
+            Rect button = new Rect(field.xMax, rect.y, height, height);
+            if (Widgets.ButtonText(button,"x"/*CloseButtonFor(button)*/))
+            {
+                input = "";
+            }
+            setting.Value = input;
+            if (input.Length > 1 && input != text)
+            {
                 change = true;
             }
             return change;

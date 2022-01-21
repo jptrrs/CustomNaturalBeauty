@@ -76,7 +76,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="HugsLib">
-      <HintPath>..\..\..\..\..\workshop\content\294100\818773962\Assemblies\HugsLib.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\workshop\content\294100\818773962\v1.3\Assemblies\HugsLib.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
@@ -332,4 +332,37 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!--Script to copy files to RimWorld's mod folder after build-->
+  <PropertyGroup>
+    <ModFolder>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods</ModFolder>
+  </PropertyGroup>
+  <Target Name="ModFiles" AfterTargets="Build">
+    <ItemGroup>
+      <Assembly Include="..\Assemblies\*.dll" />
+      <About Include="..\About\*.*" />
+      <Defs Include="..\Defs\**\*.*" />
+      <Languages Include="..\Languages\**\*.*" />
+      <News Include="..\News\*.*" />
+      <Patches Include="..\Patches\*.*" />
+      <Textures Include="..\Textures\**\*.*" />
+    </ItemGroup>
+    <Message Text="Updating mod files @ $(ModFolder)" Importance="High" />
+    <Message Text="Updating assemblies..." Importance="High" />
+    <Copy SourceFiles="@(Assembly)" DestinationFolder="$(ModFolder)\$(SolutionName)\%(RecursiveDir)" SkipUnchangedFiles="true" />
+    <Message Text="Updating 'About' folder..." Importance="High" />
+    <Copy SourceFiles="@(About)" DestinationFolder="$(ModFolder)\$(SolutionName)\About\" SkipUnchangedFiles="true" />
+    <Message Text="Updating 'Defs' folder..." Importance="High" />
+    <Copy SourceFiles="@(Defs)" DestinationFolder="$(ModFolder)\$(SolutionName)\Defs\%(RecursiveDir)" SkipUnchangedFiles="true" />
+    <Message Text="Updating 'Languages' folder..." Importance="High" />
+    <Copy SourceFiles="@(Languages)" DestinationFolder="$(ModFolder)\$(SolutionName)\Languages\%(RecursiveDir)" SkipUnchangedFiles="true" />
+    <Message Text="Updating 'News' folder..." Importance="High" />
+    <Copy SourceFiles="@(News)" DestinationFolder="$(ModFolder)\$(SolutionName)\News\" SkipUnchangedFiles="true" />
+    <Message Text="Updating 'Patches' folder..." Importance="High" />
+    <Copy SourceFiles="@(Patches)" DestinationFolder="$(ModFolder)\$(SolutionName)\Patches\" SkipUnchangedFiles="true" />
+    <Message Text="Updating 'Textures' folder..." Importance="High" />
+    <Copy SourceFiles="@(Textures)" DestinationFolder="$(ModFolder)\$(SolutionName)\Textures\%(RecursiveDir)" SkipUnchangedFiles="true" />
+    <Message Text="Updating license file..." Importance="High" />
+    <Copy SourceFiles="..\LICENSE" DestinationFolder="$(ModFolder)\$(SolutionName)\" SkipUnchangedFiles="true" />
+    <Message Text="Mod files updated." Importance="High" />
+  </Target>
 </Project>

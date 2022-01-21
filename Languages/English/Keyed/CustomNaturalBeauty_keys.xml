@@ -6,8 +6,9 @@
   <profileBaseGame>Base Game</profileBaseGame>
   <profileNatureIsBeautiful>Nature is Beautiful</profileNatureIsBeautiful>
   <profileBeautifulOutdoors>Beautiful Outdoors</profileBeautifulOutdoors>
-  <ResetToDefault>Reset to defaults</ResetToDefault>
-  <ResetToDefaultDesc>Reset all beauty values to the selected defaults, overriding the ones defined manually. Will apply when this window is closed.</ResetToDefaultDesc>
+  <Reload>reload</Reload>
+  <ReloadDesc>Reload all beauty values to the selected set, overriding the ones defined manually.</ReloadDesc>
   <plantGrowth>Plant growth</plantGrowth>
+  <SearchField>Search</SearchField>
   
 </LanguageData>
