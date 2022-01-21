@@ -348,7 +348,7 @@
     </ItemGroup>
     <Message Text="Updating mod files @ $(ModFolder)" Importance="High" />
     <Message Text="Updating assemblies..." Importance="High" />
-    <Copy SourceFiles="@(Assembly)" DestinationFolder="$(ModFolder)\$(SolutionName)\%(RecursiveDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(Assembly)" DestinationFolder="$(ModFolder)\$(SolutionName)\Assemblies\" SkipUnchangedFiles="true" />
     <Message Text="Updating 'About' folder..." Importance="High" />
     <Copy SourceFiles="@(About)" DestinationFolder="$(ModFolder)\$(SolutionName)\About\" SkipUnchangedFiles="true" />
     <Message Text="Updating 'Defs' folder..." Importance="High" />
