@@ -23,6 +23,7 @@ namespace CustomNaturalBeauty
         public Base()
         {
             Instance = this;
+            Settings.EntryName = "Custom Natural Beauty";
         }
 
         private enum ProfileEnum { BaseGame , NatureIsBeautiful, BeautifulOutdoors }
@@ -42,58 +43,70 @@ namespace CustomNaturalBeauty
             var plants = DefDatabase<ThingDef>.AllDefs.Where(x => x.plant != null).OrderBy(x => x.label);
             var chunks = DefDatabase<ThingDef>.AllDefs.Where(x => x.defName.StartsWith("Chunk")).OrderBy(x => x.label);
             var rocks = DefDatabase<ThingDef>.AllDefs.Where(x => x.mineable).OrderBy(x => x.label);
+            var filth = DefDatabase<ThingDef>.AllDefs.Where(x => x.filth != null).OrderBy(x => x.label);
             var terrain = DefDatabase<TerrainDef>.AllDefs.OrderBy(x => x.label);
-            IEnumerable<BuildableDef> affected = plants.Cast<BuildableDef>().Concat(chunks.Cast<BuildableDef>()).Concat(rocks.Cast<BuildableDef>()).Concat(terrain.Cast<BuildableDef>());
+            IEnumerable<BuildableDef> affected = plants.Cast<BuildableDef>().Concat(chunks.Cast<BuildableDef>()).Concat(rocks.Cast<BuildableDef>()).Concat(filth.Cast<BuildableDef>()).Concat(terrain.Cast<BuildableDef>());
 
             var source = Settings.GetHandle("DefaultsFrom", "DefaultsFromTitle".Translate(), "DefaultsFromDesc".Translate(), ProfileEnum.BaseGame, null, "profile");
-            source.OnValueChanged = newvalue =>
-            {
-                SetNewDefaults(source.StringValue, newvalue);
-            };
+            source.ValueChanged += handle => SetNewDefaults(source.StringValue, source.Value);
             bool isCustom = source.Value == 0;
 
             var resetButton = Settings.GetHandle<bool>("ReloadButton", "", "ReloadDesc".Translate());
             resetButton.Unsaved = true;
             resetButton.CustomDrawer = rect => Button(rect, resetButton, "Reload".Translate());
-            resetButton.OnValueChanged = delegate 
-            {
-                ResetValues();
-            };
+            resetButton.ValueChanged += handle => ResetValues();
 
             var searchField =  Settings.GetHandle<string>("SearchField", "SearchField", "SearchField", "");
             searchField.Unsaved = true;
             searchField.CustomDrawer = rect => SearchField(rect, searchField, searchField.Value);
-            searchField.OnValueChanged = searchWord =>
-            {
-                MatchSearch(searchWord);
-            };
+            searchField.ValueChanged += handle => MatchSearch(handle.StringValue);
 
             foreach (BuildableDef e in affected)
             {
-                bool hasBeauty = e.statBases != null && e.statBases.StatListContains(StatDefOf.Beauty);
-                int presetValue = 0;
-                bool isPreset = isCustom ? false : Extracted(source.StringValue, e.defName, out presetValue);
-                int defBeauty = hasBeauty ? (int)e.statBases.First((StatModifier s) => s.stat == StatDefOf.Beauty).value : 0;
-                BaseBeauty.Add(e.defName, defBeauty);
-                int defaultValue = isPreset ? presetValue : defBeauty;
-                if (!hasBeauty)
-                {
-                    if (e.statBases == null) e.statBases = new List<StatModifier>();
-                    e.statBases.Add(new StatModifier() { stat = StatDefOf.Beauty, value = defaultValue });
-                }
-                var customBeauty = Settings.GetHandle<int>(e.defName, e.label, e.description, defaultValue, Validators.IntRangeValidator(-50, +50));
-                customBeauty.OnValueChanged = newValue =>
-                {
-                    e.SetStatBaseValue(StatDefOf.Beauty, newValue);
-                    ResetControl(customBeauty);
-                };
-                Matched.Add(customBeauty, true);
-                customBeauty.VisibilityPredicate = delegate
-                {
-                    return Matched[customBeauty];
-                };
-                e.SetStatBaseValue(StatDefOf.Beauty, customBeauty.Value);
+                ProcessDef(source, isCustom, e);
             }
+        }
+
+        private void ProcessDef(SettingHandle<ProfileEnum> source, bool isCustom, BuildableDef e)
+        {
+            int presetValue = 0;
+            bool isPreset = isCustom ? false : Extracted(source.StringValue, e.defName, out presetValue);
+            int defaultValue;
+            var stat = FindRelevantStat(e, out defaultValue, isPreset);
+            var customBeauty = Settings.GetHandle<int>(e.defName, e.label, e.description, defaultValue, Validators.IntRangeValidator(-50, +50));
+            customBeauty.ValueChanged += handle =>
+            {
+                e.SetStatBaseValue(stat, customBeauty.Value);
+                ResetControl(customBeauty);
+            };
+            Matched.Add(customBeauty, true);
+            customBeauty.VisibilityPredicate = delegate
+            {
+                return Matched[customBeauty];
+            };
+            e.SetStatBaseValue(stat, customBeauty.Value);
+        }
+
+        private StatDef FindRelevantStat(BuildableDef def, out int defaultValue, bool isPreset, int presetValue = 0)
+        {
+            if (def.statBases.NullOrEmpty())
+            {
+                Log.Error($"[CustomNaturalBeauty] Can't find any stats for {def}!");
+                defaultValue = 0;
+                return null;
+            }
+            bool outBeauty = def.statBases.StatListContains(StatDefOf.BeautyOutdoors);
+            bool hasBeauty = outBeauty || def.statBases.StatListContains(StatDefOf.Beauty);
+            StatDef stat = outBeauty ? StatDefOf.BeautyOutdoors : StatDefOf.Beauty;
+            int defBeauty = hasBeauty ? (int)def.statBases.First((StatModifier s) => s.stat == stat).value : 0;
+            defaultValue = isPreset ? presetValue : defBeauty;
+            if (!hasBeauty)
+            {
+                def.statBases = new List<StatModifier>();
+                def.statBases.Add(new StatModifier() { stat = StatDefOf.Beauty, value = defaultValue });
+            }
+            BaseBeauty.Add(def.defName, defBeauty);
+            return stat;
         }
 
         private void MatchSearch(string word)
@@ -121,13 +134,11 @@ namespace CustomNaturalBeauty
         {
             foreach(SettingHandle h in Settings.Handles)
             {
-                SettingHandle<int> handle = h as SettingHandle<int>;
-                if (handle != null)
+                if (h is SettingHandle<int> handle)
                 {
-                    if (newvalue  > 0)
+                    if (newvalue > 0)
                     {
-                        int presetValue = 0;
-                        bool isPreset = Extracted(key, handle.Name, out presetValue);
+                        bool isPreset = Extracted(key, handle.Name, out int presetValue);
                         if (isPreset)
                         {
                             handle.DefaultValue = presetValue;
@@ -145,8 +156,7 @@ namespace CustomNaturalBeauty
         {
             foreach (SettingHandle h in Settings.Handles)
             {
-                SettingHandle<int> handle = h as SettingHandle<int>;
-                if (handle != null)
+                if (h is SettingHandle<int> handle)
                 {
                     handle.ResetToDefault();
                 }
@@ -162,8 +172,7 @@ namespace CustomNaturalBeauty
         public static bool Button(Rect rect, SettingHandle<bool> setting, string text)
         {
             bool change = false;
-            bool clicked = Widgets.ButtonText(rect, text);
-            if (clicked)
+            if (Widgets.ButtonText(rect, text))
             {
                 setting.Value = !setting.Value;
                 change = true;

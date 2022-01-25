@@ -24,6 +24,7 @@ namespace CustomNaturalBeauty
             Plant plant = req.Thing as Plant;
             if (req.HasThing && plant != null)
             {
+                Log.Warning($"{plant} beaty is {value}");
                 value *= plant.Growth;
             }
         }
