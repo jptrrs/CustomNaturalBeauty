@@ -2,13 +2,13 @@
 <LanguageData>
   
   <DefaultsFromTitle>Select default beauty values from:</DefaultsFromTitle>
-  <DefaultsFromDesc>Default values will apply when this window is closed (except for the settings you define manually), or on right-click. Use the reset button to overwrite all values.</DefaultsFromDesc>
+  <DefaultsFromDesc>The selected set will only be used when resetting values. Click "Apply" to overwrite all current vaules or reset them individually from the pop-up menu.</DefaultsFromDesc>
+  <Apply>Apply</Apply>
   <profileBaseGame>Base Game</profileBaseGame>
   <profileNatureIsBeautiful>Nature is Beautiful</profileNatureIsBeautiful>
   <profileBeautifulOutdoors>Beautiful Outdoors</profileBeautifulOutdoors>
-  <Reload>reload</Reload>
-  <ReloadDesc>Reload all beauty values to the selected set, overriding the ones defined manually.</ReloadDesc>
   <plantGrowth>Plant growth</plantGrowth>
   <SearchField>Search</SearchField>
+  <SearchFieldDesc>Type to search.</SearchFieldDesc>
   
 </LanguageData>
