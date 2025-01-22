@@ -9,12 +9,14 @@ using UnityEngine;
 using System.Reflection;
 using HarmonyLib;
 using UnityEngine.UI;
+using System.Text;
 
 namespace CustomNaturalBeauty
 {
     public class Base : ModBase
     {
         public static Dictionary<SettingHandle, bool> Matched = new Dictionary<SettingHandle, bool>();
+        public static Dictionary<SettingHandle, int> Saved = new Dictionary<SettingHandle, int>();
         private static readonly int boxPadding = 2;
         private Dictionary<string, int> BaseBeauty = new Dictionary<string, int>();
         public Base()
@@ -24,7 +26,9 @@ namespace CustomNaturalBeauty
         }
 
         private enum ProfileEnum
-        { BaseGame, NatureIsBeautiful, BeautifulOutdoors, Saved }
+        { BaseGame, NatureIsBeautiful, BeautifulOutdoors, LastSaved }
+
+        private ProfileEnum PresetSelected;
 
         public override string ModIdentifier
         {
@@ -71,18 +75,29 @@ namespace CustomNaturalBeauty
             var terrain = DefDatabase<TerrainDef>.AllDefs.OrderBy(x => x.label);
             IEnumerable<BuildableDef> affected = plants.Cast<BuildableDef>().Concat(chunks.Cast<BuildableDef>()).Concat(rocks.Cast<BuildableDef>()).Concat(filth.Cast<BuildableDef>()).Concat(terrain.Cast<BuildableDef>());
             var source = Settings.GetHandle("DefaultsFrom", "DefaultsFromTitle".Translate(), "DefaultsFromDesc".Translate(), ProfileEnum.BaseGame, null, "profile");
-            source.ValueChanged += handle => SetNewDefaults(source.StringValue, source.Value);
+            source.ValueChanged += handle => PresetSelected = source.Value;//SetNewDefaults(source.StringValue, source.Value);
             source.CanBeReset = true;
-            source.CustomDrawer = rect => DrawSettingDropDown(DrawWithGoButton(rect, ResetValues, "Apply".Translate()), source);
+            source.Unsaved = true;
+            source.CustomDrawer = rect => DrawSettingDropDown(DrawWithGoButton(rect, SetFromPreset/*ResetValues*/, "Apply".Translate()), source);
             bool isCustom = source.Value == ProfileEnum.BaseGame;
             var searchField = Settings.GetHandle<string>("SearchField", "SearchField".Translate(), "SearchFieldDesc".Translate(), "");
             searchField.ValueChanged += handle => MatchSearch(handle.StringValue);
             searchField.Unsaved = true;
             searchField.CustomDrawer = rect => DrawSettingSearchField(rect, searchField, searchField.Value);
+            //List<string> log = new List<string>();
             foreach (BuildableDef e in affected)
             {
-                ProcessDef(source, isCustom, e);
+                //string text;
+                ProcessDef(source, e/*, out text*/);
+                //log.AddItem(text);
             }
+            //if (Prefs.LogVerbose)
+            //{
+            //    StringBuilder report = new StringBuilder();
+            //    report.Append("[NaturalBeauty] Processed BuildableDefs: ");
+            //    foreach (string i in log) report.AppendInNewLine(i);
+            //    Log.Message(report.ToString());
+            //}
         }
 
         public void ResetValues()
@@ -91,7 +106,9 @@ namespace CustomNaturalBeauty
             {
                 if (h is SettingHandle<int> handle)
                 {
+                    Log.Message($"resetting {h.Name} to {handle.Value}");
                     handle.ResetToDefault();
+                    handle.ForceSaveChanges();
                 }
             }
         }
@@ -138,23 +155,22 @@ namespace CustomNaturalBeauty
             int.TryParse(taggedString.RawText, out value);
             return result;
         }
-        private StatDef FindRelevantStat(BuildableDef def, out int defaultValue, bool isPreset, int presetValue = 0)
+        private StatDef FindRelevantStat(BuildableDef def, out int defBeauty)
         {
+            defBeauty = 0;
             if (def.statBases.NullOrEmpty())
             {
                 Log.Error($"[CustomNaturalBeauty] Can't find any stats for {def}!");
-                defaultValue = 0;
                 return null;
             }
             bool outBeauty = def.statBases.StatListContains(StatDefOf.BeautyOutdoors);
             bool hasBeauty = outBeauty || def.statBases.StatListContains(StatDefOf.Beauty);
             StatDef stat = outBeauty ? StatDefOf.BeautyOutdoors : StatDefOf.Beauty;
-            int defBeauty = hasBeauty ? (int)def.statBases.First((StatModifier s) => s.stat == stat).value : 0;
-            defaultValue = isPreset ? presetValue : defBeauty;
+            defBeauty = hasBeauty ? (int)def.statBases.First((StatModifier s) => s.stat == stat).value : 0;
             if (!hasBeauty)
             {
                 def.statBases = new List<StatModifier>();
-                def.statBases.Add(new StatModifier() { stat = StatDefOf.Beauty, value = defaultValue });
+                def.statBases.Add(new StatModifier() { stat = StatDefOf.Beauty, value = defBeauty });
             }
             BaseBeauty.Add(def.defName, defBeauty);
             return stat;
@@ -173,22 +189,63 @@ namespace CustomNaturalBeauty
             else ResetSearch();
         }
 
-        private void ProcessDef(SettingHandle<ProfileEnum> source, bool isCustom, BuildableDef e)
+        private void ProcessDef(SettingHandle<ProfileEnum> source, BuildableDef def/*, out string log*/)
         {
-            int presetValue = 0;
-            bool isPreset = isCustom ? false : Extracted(source.StringValue, e.defName, out presetValue);
-            int defaultValue;
-            var tempstat = FindRelevantStat(e, out defaultValue, isPreset);
+            string name = def.defName;
+            //int presetValue = 0;
+            int defValue;            
+            bool saved = Settings.ValueExists(name);
+            //bool ShouldDefaulthFromBase = source.Value == ProfileEnum.BaseGame || source.Value == ProfileEnum.LastSaved;
+            //if (!ShouldDefaulthFromBase) Extracted(source.StringValue, e.defName, out presetValue);
+            var tempstat = FindRelevantStat(def, out defValue);
+            //int fallBackValue = ShouldDefaulthFromBase ? defValue : presetValue;
             var stat = (tempstat != null) ? tempstat : new StatDef();
-            var customBeauty = Settings.GetHandle<int>(e.defName, e.label, e.description, defaultValue, Validators.IntRangeValidator(-50, +50));
-            customBeauty.ValueChanged += handle => e.SetStatBaseValue(stat, customBeauty.Value);
+            var customBeauty = Settings.GetHandle<int>(def.defName, def.label, def.description, defValue/*fallBackValue*/, Validators.IntRangeValidator(-50, +50));
+            customBeauty.ValueChanged += handle =>
+            {
+                def.SetStatBaseValue(stat, customBeauty.Value);
+                customBeauty.HasUnsavedChanges = true;
+            };
             Matched.Add(customBeauty, true);
             customBeauty.VisibilityPredicate = delegate
             {
                 return Matched[customBeauty];
             };
-            e.SetStatBaseValue(stat, customBeauty.Value);
+            def.SetStatBaseValue(stat, customBeauty.Value);
+            if (saved) Saved.AddDistinct(customBeauty, customBeauty.Value);
+            //log = "";
+            //if (Prefs.LogVerbose)
+            //{
+            //    string origin = saved ? "saved" : (ShouldDefaulthFromBase ? "from def" : "from preset");
+            //    log = $"{name}: {customBeauty.Value.ToString()}, {origin}";
+            //}
         }
+
+        //private void SetNewDefaults(string key, ProfileEnum source)
+        //{
+        //    foreach (SettingHandle h in Settings.Handles)
+        //    {
+        //        if (h is SettingHandle<int> handle)
+        //        {
+        //            string name = h.Name;
+        //            if (source == ProfileEnum.LastSaved)
+        //            {
+        //                if (Saved.ContainsKey(handle))
+        //                {
+        //                    handle.DefaultValue = Saved[handle];
+        //                }
+        //            }
+        //            else if (source > 0 && Extracted(key, name, out int presetValue)) // as in, not the base game
+        //            {
+        //                handle.DefaultValue = presetValue;
+        //            }
+        //            else
+        //            {
+        //                handle.DefaultValue = BaseBeauty.ContainsKey(name) ? BaseBeauty[name] : 0;
+        //            }
+        //        }
+        //    }
+        //}
 
         private void ResetSearch()
         {
@@ -198,27 +255,34 @@ namespace CustomNaturalBeauty
             }
         }
 
-        private void SetNewDefaults(string key, ProfileEnum source)
+        private void SetFromPreset()
         {
             foreach (SettingHandle h in Settings.Handles)
             {
                 if (h is SettingHandle<int> handle)
                 {
                     string name = h.Name;
-                    if (source == ProfileEnum.Saved)
+                    if (PresetSelected == ProfileEnum.LastSaved)
                     {
-                        if (Settings.ValueExists(name)) handle.DefaultValue = Settings.PeekValue(name);
+                        if (Saved.ContainsKey(handle))
+                        {
+                            handle.Value = Saved[handle];
+                            handle.HasUnsavedChanges = true;
+
+                        }
                     }
-                    else if (source > 0 && Extracted(key, name, out int presetValue)) // as in, not the base game
+                    else if (PresetSelected > 0 && Extracted(PresetSelected.ToString(), name, out int presetValue)) // as in, not the base game
                     {
-                        handle.DefaultValue = presetValue;
+                        handle.Value = presetValue;
+                        handle.HasUnsavedChanges = true;
                     }
                     else
                     {
-                        handle.DefaultValue = BaseBeauty.ContainsKey(name) ? BaseBeauty[name] : 0;
+                        handle.ResetToDefault();
                     }
                 }
             }
         }
+
     }
 }
