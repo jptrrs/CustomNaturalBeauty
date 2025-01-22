@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-  
-  <DefaultsFromTitle>Select default beauty values from:</DefaultsFromTitle>
-  <DefaultsFromDesc>The selected set will only be used when resetting values. Click "Apply" to overwrite all current vaules or reset them individually from the pop-up menu.</DefaultsFromDesc>
+
+  <PresetsTitle>Select a set of values from:</PresetsTitle>
+  <PresetsDesc>Overwrites current values with the ones from the selected set. Saved when this window is closed.</PresetsDesc>
   <Apply>Apply</Apply>
-  <profileBaseGame>Base Game</profileBaseGame>
+  <profileDefault>Default</profileDefault>
   <profileNatureIsBeautiful>Nature is Beautiful</profileNatureIsBeautiful>
   <profileBeautifulOutdoors>Beautiful Outdoors</profileBeautifulOutdoors>
+  <profileLastSaved>Last saved</profileLastSaved>
   <plantGrowth>Plant growth</plantGrowth>
   <SearchField>Search</SearchField>
   <SearchFieldDesc>Type to search.</SearchFieldDesc>
